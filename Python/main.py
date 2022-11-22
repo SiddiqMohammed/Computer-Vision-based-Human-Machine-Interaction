@@ -7,7 +7,20 @@ import serial_comm
 detector1 = FaceDetector(minDetectionCon=0.3)  # (minDetectionCon = 0.8)
 detector2 = HandDetector(detectionCon=0.8, maxHands=3)
 
+cvSpanMin = 100
+cvSpanMax = 600
+ardSpanMcvSpanMin= 0
+ardSpanMcvSpanMax= 255
+
 cap = cv2.VideoCapture(0)
+
+
+def mapFromTo(value, cvSpanMin, cvSpanMax, ardSpanMcvSpanMin, ardSpanMcvSpanMax):
+    lSpan = cvSpanMax - cvSpanMin
+    rSpan = ardSpanMcvSpanMax - ardSpanMcvSpanMin
+    valueScaled = float(value - cvSpanMin) / float(lSpan)
+
+    return ardSpanMcvSpanMin + (valueScaled * rSpan)
 
 while True:
     success, img = cap.read()
@@ -34,13 +47,16 @@ while True:
 
         dist = math.dist(centerPoint1, centerPoint2)
 
-        print(dist)
-        if dist < 200 and dist > 100:
-            serial_comm.send_value_to_arduino(1)
+        print(f"Dist = {dist}")
+        if dist < cvSpanMax and dist > cvSpanMin:
+            valToSend = mapFromTo(dist, cvSpanMin, cvSpanMax, ardSpanMcvSpanMin, ardSpanMcvSpanMax)
+            serial_comm.send_value_to_arduino(valToSend)
+            print(f"valToSend = {valToSend}")
 
     cv2.imshow("Image", img)
 
     if cv2.waitKey(1) == ord('q'):
         break
+
 
 cap.release()
