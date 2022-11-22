@@ -31,8 +31,6 @@ void loop() {
   }
 }
 
-
-
 void ledCode() {
   //Relay stuff
   int xxx = rString.toInt();

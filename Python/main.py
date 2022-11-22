@@ -34,16 +34,16 @@ while True:
     if len(bbox) != 0 and len(hands) >= 2:
         # Hand 1
         hand1 = hands[0]
-        lmList1 = hand1["lmList"]  # List of 21 Landmark points
-        bbox1 = hand1["bbox"]  # Bounding box info x,y,w,h
+        # lmList1 = hand1["lmList"]  # List of 21 Landmark points
+        # bbox1 = hand1["bbox"]  # Bounding box info x,y,w,h
         centerPoint1 = hand1['center']  # center of the hand cx,cy
-        handType1 = hand1["type"]  # Handtype Left or Right
-
+        # handType1 = hand1["type"]  # Handtype Left or Right
+        #
         hand2 = hands[1]
-        lmList2 = hand2["lmList"]  # List of 21 Landmark points
-        bbox2 = hand2["bbox"]  # Bounding box info x,y,w,h
+        # lmList2 = hand2["lmList"]  # List of 21 Landmark points
+        # bbox2 = hand2["bbox"]  # Bounding box info x,y,w,h
         centerPoint2 = hand2['center']  # center of the hand cx,cy
-        handType2 = hand2["type"]  # Hand Type "Left" or "Right"
+        # handType2 = hand2["type"]  # Hand Type "Left" or "Right"
 
         dist = math.dist(centerPoint1, centerPoint2)
 
