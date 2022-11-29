@@ -2,7 +2,7 @@
 import serial
 import time
 
-arduinoData = serial.Serial('com4', 115200)
+arduinoData = serial.Serial('com3', 115200)
 arduinoData.setDTR(False)
 arduinoData.setRTS(False)
 

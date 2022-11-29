@@ -6,19 +6,19 @@ from cvzone.HandTrackingModule import HandDetector
 import math
 import serial_comm
 
-detector1 = FaceDetector(minDetectionCon=0.3)  # (minDetectionCon = 0.8)
+detector1 = FaceDetector(minDetectionCon=0.8)  # (minDetectionCon = 0.8)
 detector2 = HandDetector(detectionCon=0.8, maxHands=3)
 
-cvSpanMin = 50
-cvSpanMax = 600
+cvSpanMin = 25
+cvSpanMax = 900
 ardSpanMcvSpanMin = 0
-ardSpanMcvSpanMax = 50
+ardSpanMcvSpanMax = 255
 
-# cap = cv2.VideoCapture('http://192.168.1.8:81/stream')
+cap = cv2.VideoCapture('http://192.168.137.166:81/stream')
 
 # cap = cv2.VideoCapture("192.168.137.209")
 
-cap = cv2.VideoCapture(0)
+# cap = cv2.VideoCapture(0)
 
 
 def mapFromTo(value, cvSpanMin, cvSpanMax, ardSpanMcvSpanMin, ardSpanMcvSpanMax):
@@ -57,8 +57,9 @@ while True:
         if dist < cvSpanMax and dist > cvSpanMin:
             valToSend = mapFromTo(dist, cvSpanMin, cvSpanMax, ardSpanMcvSpanMin, ardSpanMcvSpanMax)
             serial_comm.send_value_to_arduino(valToSend)
-            print(f"valToSend = {valToSend}")
-
+            # print(f"valToSend = {valToSend}")
+    if len(bbox) <= 0:
+        serial_comm.send_value_to_arduino(0)
     cv2.imshow("Image", img)
 
     if cv2.waitKey(1) == ord('q'):

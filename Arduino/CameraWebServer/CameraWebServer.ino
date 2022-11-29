@@ -51,7 +51,7 @@ String serialData;
 String rString;
 int receivedChar;
 boolean newData = false;
-int max_brightness_value = 25;
+int max_brightness_value = 255;
 int min_brightness_value = 0;
 
 void setup() {
