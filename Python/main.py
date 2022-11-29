@@ -1,3 +1,5 @@
+import urllib
+
 import cv2
 from cvzone.FaceDetectionModule import FaceDetector
 from cvzone.HandTrackingModule import HandDetector
@@ -7,10 +9,14 @@ import serial_comm
 detector1 = FaceDetector(minDetectionCon=0.3)  # (minDetectionCon = 0.8)
 detector2 = HandDetector(detectionCon=0.8, maxHands=3)
 
-cvSpanMin = 100
+cvSpanMin = 50
 cvSpanMax = 600
-ardSpanMcvSpanMin= 0
-ardSpanMcvSpanMax= 255
+ardSpanMcvSpanMin = 0
+ardSpanMcvSpanMax = 50
+
+# cap = cv2.VideoCapture('http://192.168.1.8:81/stream')
+
+# cap = cv2.VideoCapture("192.168.137.209")
 
 cap = cv2.VideoCapture(0)
 
