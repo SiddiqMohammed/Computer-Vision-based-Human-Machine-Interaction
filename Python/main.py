@@ -1,24 +1,22 @@
-import urllib
-
 import cv2
 from cvzone.FaceDetectionModule import FaceDetector
 from cvzone.HandTrackingModule import HandDetector
 import math
-import serial_comm
+# import serial_comm
 
 detector1 = FaceDetector(minDetectionCon=0.8)  # (minDetectionCon = 0.8)
-detector2 = HandDetector(detectionCon=0.8, maxHands=3)
+detector2 = HandDetector(detectionCon=0.8, maxHands=2)
 
 cvSpanMin = 25
 cvSpanMax = 900
 ardSpanMcvSpanMin = 0
 ardSpanMcvSpanMax = 255
 
-cap = cv2.VideoCapture('http://192.168.137.166:81/stream')
+# cap = cv2.VideoCapture('http://192.168.137.95:81/stream')
 
 # cap = cv2.VideoCapture("192.168.137.209")
 
-# cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0)
 
 
 def mapFromTo(value, cvSpanMin, cvSpanMax, ardSpanMcvSpanMin, ardSpanMcvSpanMax):
@@ -37,7 +35,7 @@ while True:
     hands, img = detector2.findHands(img)  # with draw
     # print(img)
 
-    if len(bbox) != 0 and len(hands) >= 2:
+    if len(bbox) != 0 and len(hands) == 2:
         # Hand 1
         hand1 = hands[0]
         # lmList1 = hand1["lmList"]  # List of 21 Landmark points
@@ -53,13 +51,14 @@ while True:
 
         dist = math.dist(centerPoint1, centerPoint2)
 
-        print(f"Dist = {dist}")
-        if dist < cvSpanMax and dist > cvSpanMin:
-            valToSend = mapFromTo(dist, cvSpanMin, cvSpanMax, ardSpanMcvSpanMin, ardSpanMcvSpanMax)
-            serial_comm.send_value_to_arduino(valToSend)
-            # print(f"valToSend = {valToSend}")
-    if len(bbox) <= 0:
-        serial_comm.send_value_to_arduino(0)
+    #     print(f"Dist = {dist}")
+    #     if dist < cvSpanMax and dist > cvSpanMin:
+    #         valToSend = mapFromTo(dist, cvSpanMin, cvSpanMax, ardSpanMcvSpanMin, ardSpanMcvSpanMax)
+    #         serial_comm.send_value_to_arduino(valToSend)
+    #         print(f"valToSend = {valToSend}")
+    # # face detected then led on
+    # if len(bbox) <= 0:
+    #     serial_comm.send_value_to_arduino(0)
     cv2.imshow("Image", img)
 
     if cv2.waitKey(1) == ord('q'):
